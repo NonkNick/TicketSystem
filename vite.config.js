@@ -17,7 +17,13 @@ export default defineConfig({
         tailwindcss(),
     ],
     server: {
+        host: '0.0.0.0',        // listen on all interfaces so the mapped port works
+        port: 5173,
+        hmr: {
+            host: 'localhost',  // tell the browser's HMR client where to connect
+        },
         watch: {
+            usePolling: true,   // bind-mounted files on Linux+Docker often miss native fs events
             ignored: ['**/storage/framework/views/**'],
         },
     },
