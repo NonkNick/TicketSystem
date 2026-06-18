@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 
-class ExampleTest extends TestCase
+class esources/views/components/test.blade.phExampleTest extends TestCase
 {
     /**
      * A basic test example.

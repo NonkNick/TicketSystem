@@ -1,4 +1,4 @@
-<?php
+<?phpesources/views/components/test.blade.phesources/views/components/test.blade.ph
 
 namespace Tests;
 
