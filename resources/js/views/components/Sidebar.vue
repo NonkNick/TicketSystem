@@ -64,6 +64,7 @@ const tickets = ref([
   <div class="flex flex-col gap-4 p-4">
     <RouterLink to="/">Home</RouterLink>
     <RouterLink to="/about">About</RouterLink>
+    <RouterLink to="/login">Login</RouterLink>
     <TicketListItem v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
 
   </div>
