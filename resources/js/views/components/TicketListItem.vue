@@ -1,15 +1,26 @@
 <script setup lang="ts">
 type TicketStatus = 'in_afwachting' | 'in_behandeling' | 'afgehandeld'
 
+interface TicketUser {
+  id: number
+  name: string
+}
+
+interface Category {
+  id: number
+  name: string
+}
+
 interface Ticket {
   id: number
-  user_id: number
-  assigned_to: number | null
   title: string
   description: string
   status: TicketStatus
   created_at: string
   updated_at: string
+  creator: TicketUser
+  assignee: TicketUser | null
+  categories: Category[]
 }
 
 const props = defineProps<{
@@ -43,9 +54,16 @@ const statusLabel = statusLabels[props.ticket.status]
     <p class="font-semibold text-gray-900">{{ ticket.title }}</p>
     <p class="line-clamp-2 text-sm text-gray-600">{{ ticket.description }}</p>
 
+    <div v-if="ticket.categories.length" class="flex flex-wrap gap-1">
+      <span v-for="category in ticket.categories" :key="category.id"
+            class="rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-600">
+        {{ category.name }}
+      </span>
+    </div>
+
     <div class="flex items-center justify-between text-xs text-gray-400">
-      <span>Aangemaakt: {{ ticket.created_at }}</span>
-      <span v-if="ticket.assigned_to">Toegewezen aan: #{{ ticket.assigned_to }}</span>
+      <span>Aangemaakt door: {{ ticket.creator.name }}</span>
+      <span v-if="ticket.assignee">Toegewezen aan: {{ ticket.assignee.name }}</span>
       <span v-else class="italic">Niet toegewezen</span>
     </div>
   </div>
