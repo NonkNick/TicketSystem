@@ -1,8 +1,7 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router';
-import Sidebar from "./views/components/Sidebar.vue";
+<script setup lang="ts">
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <RouterView />
+    <RouterView />
 </template>

@@ -62,7 +62,7 @@ class DatabaseSeeder extends Seeder
                     ->create(['ticket_id' => $ticket->id]);
 
                 // 0-2 admin-only notes
-                Note::factory(rand(0, 2))
+                Note::factory(rand(1, 2))
                     ->recycle($admins)
                     ->create(['ticket_id' => $ticket->id]);
             });

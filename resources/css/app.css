@@ -3,7 +3,176 @@
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+/* Enable class-based dark mode (`<html class="dark">`) alongside the
+   system-preference default configured below. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+ * Theme-aware tokens — Catppuccin (Latte / Mocha)
+ * -----------------------------------------------
+ * Elevation model: the page sits on `mantle` (a recessed layer), and
+ * cards/panels sit on `base` (the brightest neutral). Surfaces therefore
+ * always elevate *toward* the viewer in both modes — lighter in Mocha,
+ * and lifted by shadow (see `card`) in Latte, where the neutrals are
+ * intentionally close in luminance. `surface0/1` provide the borders.
+ *
+ * Raw values are mapped to Tailwind utilities in `@theme inline`, so
+ * overriding them (light / dark) automatically re-themes the app.
+ */
+:root {
+    /* Surfaces & structure — mantle (page) / base (panels) / surface0 (lines) */
+    --background: #e6e9ef; /* page background   (mantle)   */
+    --surface: #eff1f5; /* cards, panels     (base)     */
+    --border: #ccd0da; /* dividers, borders (surface0) */
+
+    /* Hover states — nudged toward the text color, so they darken in Latte
+       and lighten in Mocha from a single definition. */
+    --background-hover: color-mix(in oklab, var(--background), var(--content) 6%);
+    --surface-hover: color-mix(in oklab, var(--surface), var(--content) 6%);
+    --border-hover: color-mix(in oklab, var(--border), var(--content) 12%);
+
+    /* Text hierarchy (strong -> subtle). Named `content-*` so `foreground`
+       stays reserved for on-color text (see primary/secondary/accent). */
+    --content: #4c4f69; /* headings, emphasis  (text)     */
+    --content-muted: #5c5f77; /* body copy           (subtext1) */
+    --content-subtle: #8c8fa1; /* meta, captions      (overlay1) */
+
+    /* Brand accents — green / teal / peach, with on-color text. */
+    --primary: #40a02b;
+    --primary-hover: #37891f;
+    --primary-foreground: #eff1f5;
+    --secondary: #179299;
+    --secondary-hover: #12787e;
+    --secondary-foreground: #eff1f5;
+    --accent: #fe640b;
+    --accent-hover: #e5560a;
+    --accent-foreground: #eff1f5;
+
+    /* Feedback — strong shade for text/icons (per mode below). */
+    --positive: #40a02b; /* green  */
+    --negative: #d20f39; /* red    */
+    --warning: #df8e1d; /* yellow */
+    --info: #1e66f5; /* blue   */
+
+    /* Soft feedback tints (chip/alert backgrounds). Mixed in a perceptual
+       space from each color into the current surface, so they read as a
+       gentle wash of the same hue and re-derive per mode from one line —
+       a light tint in Latte, a deep muted chip in Mocha. */
+    --positive-soft: color-mix(in oklab, var(--positive) 18%, var(--surface));
+    --negative-soft: color-mix(in oklab, var(--negative) 18%, var(--surface));
+    --warning-soft: color-mix(in oklab, var(--warning) 18%, var(--surface));
+    --info-soft: color-mix(in oklab, var(--info) 18%, var(--surface));
+}
+
+/* Mocha values: applied automatically for users whose OS prefers dark,
+   unless they've been explicitly opted into light via `.light`. */
+@media (prefers-color-scheme: dark) {
+    :root:not(.light) {
+        --background: #181825; /* mantle   */
+        --surface: #1e1e2e; /* base     */
+        --border: #45475a; /* surface1 */
+
+        --content: #cdd6f4; /* text     */
+        --content-muted: #bac2de; /* subtext1 */
+        --content-subtle: #7f849c; /* overlay1 */
+
+        --primary: #a6e3a1;
+        --primary-hover: #94d68f;
+        --primary-foreground: #11111b;
+        --secondary: #94e2d5;
+        --secondary-hover: #82d5c7;
+        --secondary-foreground: #11111b;
+        --accent: #fab387;
+        --accent-hover: #f5a377;
+        --accent-foreground: #11111b;
+
+        --positive: #a6e3a1;
+        --negative: #f38ba8;
+        --warning: #f9e2af;
+        --info: #89b4fa;
+    }
+}
+
+/* Explicit manual override, e.g. a theme toggle setting `<html class="dark">`. */
+.dark {
+    --background: #181825;
+    --surface: #1e1e2e;
+    --border: #45475a;
+
+    --content: #cdd6f4;
+    --content-muted: #bac2de;
+    --content-subtle: #7f849c;
+
+    --primary: #a6e3a1;
+    --primary-hover: #94d68f;
+    --primary-foreground: #11111b;
+    --secondary: #94e2d5;
+    --secondary-hover: #82d5c7;
+    --secondary-foreground: #11111b;
+    --accent: #fab387;
+    --accent-hover: #f5a377;
+    --accent-foreground: #11111b;
+
+    --positive: #a6e3a1;
+    --negative: #f38ba8;
+    --warning: #f9e2af;
+    --info: #89b4fa;
+}
+
+@theme inline {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+        'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    /* Surfaces & structure -> bg-background, bg-surface, border-border
+       (+ *-hover for hover:bg-surface-hover, hover:border-border-hover, …) */
+    --color-background: var(--background);
+    --color-background-hover: var(--background-hover);
+    --color-surface: var(--surface);
+    --color-surface-hover: var(--surface-hover);
+    --color-border: var(--border);
+    --color-border-hover: var(--border-hover);
+
+    /* Text hierarchy -> text-content, text-content-muted, text-content-subtle */
+    --color-content: var(--content);
+    --color-content-muted: var(--content-muted);
+    --color-content-subtle: var(--content-subtle);
+
+    /* Brand accents -> bg-primary/secondary/accent + *-hover / *-foreground */
+    --color-primary: var(--primary);
+    --color-primary-hover: var(--primary-hover);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-hover: var(--secondary-hover);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-hover: var(--accent-hover);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-positive: var(--positive);
+    --color-positive-soft: var(--positive-soft);
+
+    --color-negative: var(--negative);
+    --color-negative-soft: var(--negative-soft);
+
+    --color-warning: var(--warning);
+    --color-warning-soft: var(--warning-soft);
+
+    --color-info: var(--info);
+    --color-info-soft: var(--info-soft);
+}
+
+@layer base {
+    body {
+        background-color: var(--color-background);
+        color: var(--color-content-muted);
+    }
+}
+
+/* Themed surface panel: rounded corners + drop shadow, adapts to
+   light/dark via the surface & border tokens. */
+@utility card {
+    @apply rounded-xl border border-border bg-surface shadow-md;
 }
