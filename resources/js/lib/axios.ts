@@ -1,8 +1,4 @@
-import axios, {
-    type AxiosInstance,
-    type AxiosError,
-    type AxiosResponse,
-} from 'axios'
+import axios from 'axios';
 
 const api = axios.create({
     baseURL: '/api',
@@ -12,12 +8,12 @@ const api = axios.create({
         Accept: 'application/json',
         'X-Requested-With': 'XMLHttpRequest',
     },
-})
+});
 
 export function csrf() {
     return axios.get('/sanctum/csrf-cookie', {
         withCredentials: true,
-    })
+    });
 }
 
-export default api
+export default api;

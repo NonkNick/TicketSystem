@@ -22,6 +22,8 @@ class TicketResource extends JsonResource
             'creator' => UserResource::make($this->whenLoaded('creator')),
             'assignee' => UserResource::make($this->whenLoaded('assignee')),
             'categories' => CategoryResource::collection($this->whenLoaded('categories')),
+            'comments' => TicketCommentResource::collection($this->whenLoaded('comments')),
+            'notes' => NoteResource::collection($this->whenLoaded('notes')),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ];

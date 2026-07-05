@@ -1,32 +1,23 @@
-<script setup>
-
-import {RouterLink} from "vue-router";
-
-import {onMounted, ref} from "vue";
-import api from "../../lib/axios";
-import TicketListItem from "./TicketListItem.vue";
-
-const tickets = ref([])
-
-onMounted(async () => {
-  const { data } = await api.get('/tickets')
-  tickets.value = data
-  console.log(data)
-})
-
+<script setup lang="ts">
+import { RouterLink } from 'vue-router';
+import TicketList from '@/views/components/TicketList.vue';
+import AccountDetail from '@/views/components/AccountDetail.vue';
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 p-4">
-    <RouterLink to="/">Home</RouterLink>
-    <RouterLink to="/about">About</RouterLink>
-    <RouterLink to="/login">Login</RouterLink>
-    <TicketListItem v-for="ticket in tickets" :key="ticket.id" :ticket="ticket" />
+    <div class="flex h-full min-h-0 flex-col gap-4 p-4">
+        <nav class="flex flex-col gap-2">
+            <RouterLink to="/">Home</RouterLink>
+            <RouterLink to="/about">About</RouterLink>
+            <RouterLink to="/login">Login</RouterLink>
+        </nav>
 
-  </div>
+        <div class="min-h-0 flex-1 overflow-y-auto">
+            <TicketList />
+        </div>
 
+        <AccountDetail />
+    </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

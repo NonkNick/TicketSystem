@@ -14,7 +14,7 @@ const statusLabel = computed(() => statusLabels[props.ticket.status]);
 </script>
 
 <template>
-    <RouterLink class="flex flex-col gap-2 card p-4 hover:bg-surface-hover" :to="`/tickets/${ticket.id}`">
+    <RouterLink class="flex flex-col gap-2 card p-4" :to="`/tickets/${ticket.id}`">
         <div class="flex items-center justify-between">
             <span class="text-sm font-medium text-content-subtle">#{{ ticket.id }}</span>
             <span
@@ -36,7 +36,7 @@ const statusLabel = computed(() => statusLabels[props.ticket.status]);
             <span
                 v-for="category in ticket.categories"
                 :key="category.id"
-                class="rounded bg-info-soft px-2 py-0.5 text-xs text-content-muted"
+                class="color-positive card bg-info-soft px-2 py-0.5 text-xs text-content-muted"
             >
                 {{ category.name }}
             </span>
