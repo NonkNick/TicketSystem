@@ -37,15 +37,19 @@
     --content-muted: #5c5f77; /* body copy           (subtext1) */
     --content-subtle: #8c8fa1; /* meta, captions      (overlay1) */
 
-    /* Brand accents — green / teal / peach, with on-color text. */
-    --primary: #40a02b;
-    --primary-hover: #37891f;
+    /* Brand accents — green + teal are analogous (a calm, cohesive base);
+       mauve is their split-complement, giving a harmonious "pop" accent
+       instead of an unrelated warm hue. Hovers derive from a single line,
+       mixing toward the text color so they darken in Latte and lighten in
+       Mocha — exactly as the surface hovers above do. */
+    --primary: #40a02b; /* green */
+    --secondary: #179299; /* teal  */
+    --accent: #8839ef; /* mauve */
+    --primary-hover: color-mix(in oklab, var(--primary), var(--content) 12%);
+    --secondary-hover: color-mix(in oklab, var(--secondary), var(--content) 12%);
+    --accent-hover: color-mix(in oklab, var(--accent), var(--content) 12%);
     --primary-foreground: #eff1f5;
-    --secondary: #179299;
-    --secondary-hover: #12787e;
     --secondary-foreground: #eff1f5;
-    --accent: #fe640b;
-    --accent-hover: #e5560a;
     --accent-foreground: #eff1f5;
 
     /* Feedback — strong shade for text/icons (per mode below). */
@@ -76,14 +80,11 @@
         --content-muted: #bac2de; /* subtext1 */
         --content-subtle: #7f849c; /* overlay1 */
 
-        --primary: #a6e3a1;
-        --primary-hover: #94d68f;
+        --primary: #a6e3a1; /* green */
+        --secondary: #94e2d5; /* teal  */
+        --accent: #cba6f7; /* mauve */
         --primary-foreground: #11111b;
-        --secondary: #94e2d5;
-        --secondary-hover: #82d5c7;
         --secondary-foreground: #11111b;
-        --accent: #fab387;
-        --accent-hover: #f5a377;
         --accent-foreground: #11111b;
 
         --positive: #a6e3a1;
@@ -103,14 +104,11 @@
     --content-muted: #bac2de;
     --content-subtle: #7f849c;
 
-    --primary: #a6e3a1;
-    --primary-hover: #94d68f;
+    --primary: #a6e3a1; /* green */
+    --secondary: #94e2d5; /* teal  */
+    --accent: #cba6f7; /* mauve */
     --primary-foreground: #11111b;
-    --secondary: #94e2d5;
-    --secondary-hover: #82d5c7;
     --secondary-foreground: #11111b;
-    --accent: #fab387;
-    --accent-hover: #f5a377;
     --accent-foreground: #11111b;
 
     --positive: #a6e3a1;
