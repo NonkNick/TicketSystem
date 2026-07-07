@@ -6,6 +6,11 @@ export interface User {
     id: number;
     name: string;
     role: UserRole;
+    // admin only shape
+    first_name?: string;
+    last_name?: string;
+    email?: string;
+    phone?: string | null;
 }
 
 export interface Category {

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Policies\Providers;
+namespace App\Providers;
 
+use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // spa password reset link.
+        ResetPassword::createUrlUsing(fn ($user, string $token) => config('app.url')
+            .'/reset-password/'.$token.'?email='.urlencode($user->getEmailForPasswordReset()));
     }
 }

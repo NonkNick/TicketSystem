@@ -15,7 +15,7 @@ class NoteResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->ticket_id,
+            'id' => $this->id,
             'user' => UserResource::make($this->whenLoaded('user')),
             'note' => $this->note,
             'created_at' => $this->created_at,

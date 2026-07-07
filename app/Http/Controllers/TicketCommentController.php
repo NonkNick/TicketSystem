@@ -4,47 +4,46 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTicketCommentRequest;
 use App\Http\Requests\UpdateTicketCommentRequest;
+use App\Http\Resources\TicketCommentResource;
+use App\Models\Ticket;
 use App\Models\TicketComment;
+use App\Notifications\TicketReplyNotification;
+use Illuminate\Support\Facades\Gate;
 
 class TicketCommentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Add a comment (reply) to the given ticket (administrators only).
      */
-    public function index()
+    public function store(StoreTicketCommentRequest $request, Ticket $ticket)
     {
-        //
+        Gate::authorize('create', TicketComment::class);
+
+        $comment = $ticket->comments()->create([
+            'user_id' => $request->user()->id,
+            'message' => $request->validated('message'),
+        ]);
+
+        // Notify the ticket creator that a reply was added (skip self-replies).
+        if ($ticket->creator && $ticket->creator->isNot($request->user())) {
+            $ticket->creator->notify(new TicketReplyNotification($ticket));
+        }
+
+        return TicketCommentResource::make($comment->load('user'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update an existing comment (administrators only).
      */
-    public function store(StoreTicketCommentRequest $request)
+    public function update(UpdateTicketCommentRequest $request, TicketComment $comment)
     {
-        //
-    }
+        Gate::authorize('update', $comment);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TicketComment $ticketComment)
-    {
-        //
-    }
+        $comment->update([
+            'message'   => $request->validated('message'),
+            'edited_at' => now(),
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateTicketCommentRequest $request, TicketComment $ticketComment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TicketComment $ticketComment)
-    {
-        //
+        return TicketCommentResource::make($comment->load('user'));
     }
 }

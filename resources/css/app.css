@@ -58,6 +58,16 @@
     --warning: #df8e1d; /* yellow */
     --info: #1e66f5; /* blue   */
 
+    /* Destructive actions (delete) promote `negative` to a solid button:
+       a hover that derives per mode (toward text) plus on-color text. */
+    --negative-hover: color-mix(in oklab, var(--negative), var(--content) 12%);
+    --negative-foreground: #eff1f5;
+
+    /* Neutral — a hue-less overlay for meta / category chips that carry no
+       status meaning, so they sit quietly beside the accent hues instead of
+       borrowing blue from `info`. */
+    --neutral: #7c7f93; /* overlay2 */
+
     /* Soft feedback tints (chip/alert backgrounds). Mixed in a perceptual
        space from each color into the current surface, so they read as a
        gentle wash of the same hue and re-derive per mode from one line —
@@ -66,6 +76,7 @@
     --negative-soft: color-mix(in oklab, var(--negative) 18%, var(--surface));
     --warning-soft: color-mix(in oklab, var(--warning) 18%, var(--surface));
     --info-soft: color-mix(in oklab, var(--info) 18%, var(--surface));
+    --neutral-soft: color-mix(in oklab, var(--neutral) 18%, var(--surface));
 }
 
 /* Mocha values: applied automatically for users whose OS prefers dark,
@@ -91,6 +102,8 @@
         --negative: #f38ba8;
         --warning: #f9e2af;
         --info: #89b4fa;
+        --negative-foreground: #11111b;
+        --neutral: #9399b2; /* overlay2 */
     }
 }
 
@@ -115,6 +128,8 @@
     --negative: #f38ba8;
     --warning: #f9e2af;
     --info: #89b4fa;
+    --negative-foreground: #11111b;
+    --neutral: #9399b2; /* overlay2 */
 }
 
 @theme inline {
@@ -154,12 +169,17 @@
 
     --color-negative: var(--negative);
     --color-negative-soft: var(--negative-soft);
+    --color-negative-hover: var(--negative-hover);
+    --color-negative-foreground: var(--negative-foreground);
 
     --color-warning: var(--warning);
     --color-warning-soft: var(--warning-soft);
 
     --color-info: var(--info);
     --color-info-soft: var(--info-soft);
+
+    --color-neutral: var(--neutral);
+    --color-neutral-soft: var(--neutral-soft);
 }
 
 @layer base {
@@ -172,5 +192,5 @@
 /* Themed surface panel: rounded corners + drop shadow, adapts to
    light/dark via the surface & border tokens. */
 @utility card {
-    @apply rounded-xl border border-border bg-surface shadow-md;
+    @apply rounded-xl bg-surface shadow-md;
 }

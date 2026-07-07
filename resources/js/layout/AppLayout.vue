@@ -5,8 +5,8 @@ import Sidebar from '../views/components/Sidebar.vue';
 <template>
     <main class="h-full">
         <div class="flex h-full flex-row">
-            <Sidebar class="w-1/3" />
-            <div class="flex-1">
+            <Sidebar class="w-2/5" />
+            <div class="min-w-0 flex-1 overflow-y-auto">
                 <RouterView />
             </div>
         </div>
