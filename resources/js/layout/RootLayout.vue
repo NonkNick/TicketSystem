@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { RouterView } from 'vue-router';
-import { useThemeStore } from '../stores/theme';
+import { useThemeStore } from '@/stores/theme';
 
 const themeStore = useThemeStore();
 const { theme } = storeToRefs(themeStore);
@@ -9,7 +9,7 @@ const { theme } = storeToRefs(themeStore);
 
 <template>
     <div class="flex h-dvh flex-col overflow-hidden bg-background text-content-muted">
-        <header class="flex items-center justify-between border-b border-border px-4 py-2">
+        <header class="flex items-center justify-between card rounded px-4 py-2">
             <span class="font-semibold text-content">TicketSystem</span>
             <button
                 type="button"

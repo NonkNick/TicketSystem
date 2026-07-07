@@ -1,4 +1,4 @@
 <template>
-    <h1 class="text-xl font-medium">Home</h1>
-    <p>Vue + Vue Router is running.</p>
+    <h1 class="text-xl font-medium">Support Tickets</h1>
+    <p>Klik op een ticket voor meer detail..</p>
 </template>

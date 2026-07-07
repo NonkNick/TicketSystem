@@ -37,15 +37,19 @@
     --content-muted: #5c5f77; /* body copy           (subtext1) */
     --content-subtle: #8c8fa1; /* meta, captions      (overlay1) */
 
-    /* Brand accents — green / teal / peach, with on-color text. */
-    --primary: #40a02b;
-    --primary-hover: #37891f;
+    /* Brand accents — green + teal are analogous (a calm, cohesive base);
+       mauve is their split-complement, giving a harmonious "pop" accent
+       instead of an unrelated warm hue. Hovers derive from a single line,
+       mixing toward the text color so they darken in Latte and lighten in
+       Mocha — exactly as the surface hovers above do. */
+    --primary: #40a02b; /* green */
+    --secondary: #179299; /* teal  */
+    --accent: #8839ef; /* mauve */
+    --primary-hover: color-mix(in oklab, var(--primary), var(--content) 12%);
+    --secondary-hover: color-mix(in oklab, var(--secondary), var(--content) 12%);
+    --accent-hover: color-mix(in oklab, var(--accent), var(--content) 12%);
     --primary-foreground: #eff1f5;
-    --secondary: #179299;
-    --secondary-hover: #12787e;
     --secondary-foreground: #eff1f5;
-    --accent: #fe640b;
-    --accent-hover: #e5560a;
     --accent-foreground: #eff1f5;
 
     /* Feedback — strong shade for text/icons (per mode below). */
@@ -53,6 +57,16 @@
     --negative: #d20f39; /* red    */
     --warning: #df8e1d; /* yellow */
     --info: #1e66f5; /* blue   */
+
+    /* Destructive actions (delete) promote `negative` to a solid button:
+       a hover that derives per mode (toward text) plus on-color text. */
+    --negative-hover: color-mix(in oklab, var(--negative), var(--content) 12%);
+    --negative-foreground: #eff1f5;
+
+    /* Neutral — a hue-less overlay for meta / category chips that carry no
+       status meaning, so they sit quietly beside the accent hues instead of
+       borrowing blue from `info`. */
+    --neutral: #7c7f93; /* overlay2 */
 
     /* Soft feedback tints (chip/alert backgrounds). Mixed in a perceptual
        space from each color into the current surface, so they read as a
@@ -62,6 +76,7 @@
     --negative-soft: color-mix(in oklab, var(--negative) 18%, var(--surface));
     --warning-soft: color-mix(in oklab, var(--warning) 18%, var(--surface));
     --info-soft: color-mix(in oklab, var(--info) 18%, var(--surface));
+    --neutral-soft: color-mix(in oklab, var(--neutral) 18%, var(--surface));
 }
 
 /* Mocha values: applied automatically for users whose OS prefers dark,
@@ -76,20 +91,19 @@
         --content-muted: #bac2de; /* subtext1 */
         --content-subtle: #7f849c; /* overlay1 */
 
-        --primary: #a6e3a1;
-        --primary-hover: #94d68f;
+        --primary: #a6e3a1; /* green */
+        --secondary: #94e2d5; /* teal  */
+        --accent: #cba6f7; /* mauve */
         --primary-foreground: #11111b;
-        --secondary: #94e2d5;
-        --secondary-hover: #82d5c7;
         --secondary-foreground: #11111b;
-        --accent: #fab387;
-        --accent-hover: #f5a377;
         --accent-foreground: #11111b;
 
         --positive: #a6e3a1;
         --negative: #f38ba8;
         --warning: #f9e2af;
         --info: #89b4fa;
+        --negative-foreground: #11111b;
+        --neutral: #9399b2; /* overlay2 */
     }
 }
 
@@ -103,20 +117,19 @@
     --content-muted: #bac2de;
     --content-subtle: #7f849c;
 
-    --primary: #a6e3a1;
-    --primary-hover: #94d68f;
+    --primary: #a6e3a1; /* green */
+    --secondary: #94e2d5; /* teal  */
+    --accent: #cba6f7; /* mauve */
     --primary-foreground: #11111b;
-    --secondary: #94e2d5;
-    --secondary-hover: #82d5c7;
     --secondary-foreground: #11111b;
-    --accent: #fab387;
-    --accent-hover: #f5a377;
     --accent-foreground: #11111b;
 
     --positive: #a6e3a1;
     --negative: #f38ba8;
     --warning: #f9e2af;
     --info: #89b4fa;
+    --negative-foreground: #11111b;
+    --neutral: #9399b2; /* overlay2 */
 }
 
 @theme inline {
@@ -156,12 +169,17 @@
 
     --color-negative: var(--negative);
     --color-negative-soft: var(--negative-soft);
+    --color-negative-hover: var(--negative-hover);
+    --color-negative-foreground: var(--negative-foreground);
 
     --color-warning: var(--warning);
     --color-warning-soft: var(--warning-soft);
 
     --color-info: var(--info);
     --color-info-soft: var(--info-soft);
+
+    --color-neutral: var(--neutral);
+    --color-neutral-soft: var(--neutral-soft);
 }
 
 @layer base {
@@ -174,5 +192,5 @@
 /* Themed surface panel: rounded corners + drop shadow, adapts to
    light/dark via the surface & border tokens. */
 @utility card {
-    @apply rounded-xl border border-border bg-surface shadow-md;
+    @apply rounded-xl bg-surface shadow-md;
 }

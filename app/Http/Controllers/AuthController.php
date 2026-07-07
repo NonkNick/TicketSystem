@@ -7,6 +7,7 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,8 @@ class AuthController extends Controller
             'name' => $validated['first_name'].' '.$validated['last_name'],
             'role' => 'user',
         ]);
+
+        $user->notify(new WelcomeNotification());
 
         event(new Registered($user));
 
@@ -49,7 +52,8 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        Auth::logout();
+        // SPA is vaag met sanctum als je dit niet doet
+        Auth::guard('web')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

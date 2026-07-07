@@ -78,6 +78,13 @@ async function submit() {
                 Onthoud mij
             </label>
 
+            <router-link
+                :to="{ name: 'forgot-password' }"
+                class="text-sm text-primary hover:underline"
+            >
+                Wachtwoord vergeten?
+            </router-link>
+
             <button
                 type="submit"
                 :disabled="submitting"
@@ -89,6 +96,13 @@ async function submit() {
             >
                 {{ submitting ? 'Bezig…' : 'Login' }}
             </button>
+
+            <p class="text-sm text-content-muted">
+                Nog geen account?
+                <router-link :to="{ name: 'register' }" class="text-primary hover:underline"
+                    >Registreren</router-link
+                >
+            </p>
         </form>
     </main>
 </template>

@@ -16,8 +16,19 @@ class UserResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' =>  $this->name,
+            'name' => $this->name,
             'role' => $this->role,
+
+            // Contact details are only added for administrators (e.g. the admin
+            // user-overview). For everyone else — including when a user object is
+            // embedded as a ticket's creator/assignee/author — these keys are
+            // simply omitted from the response.
+            $this->mergeWhen($request->user()?->isAdmin() ?? false, [
+                'first_name' => $this->first_name,
+                'last_name'  => $this->last_name,
+                'email'      => $this->email,
+                'phone'      => $this->phone,
+            ]),
         ];
     }
 }
