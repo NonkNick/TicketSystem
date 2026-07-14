@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import api from '../../lib/axios';
+import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 import TicketListItem from './TicketListItem.vue';
-import type { Ticket } from '@/types';
+import { useTicketStore } from '@/stores/tickets';
 
-const tickets = ref<Ticket[]>([]);
+const ticketStore = useTicketStore();
+const { all: tickets } = storeToRefs(ticketStore);
 
-onMounted(async () => {
-    const { data: body } = await api.get<{ data: Ticket[] }>('/tickets');
-    tickets.value = body.data;
-});
+onMounted(() => ticketStore.getAll());
 </script>
 
 <template>

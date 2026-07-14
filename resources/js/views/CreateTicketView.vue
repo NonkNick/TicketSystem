@@ -1,25 +1,26 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
 import { isAxiosError } from 'axios';
 import api, { csrf } from '@/lib/axios';
-import type { Category, Ticket } from '@/types';
+import type { Ticket } from '@/types';
+import { useCategoryStore } from '@/stores/categories';
 import TicketFormFields from '@/views/components/TicketFormFields.vue';
 
 const router = useRouter();
 
+const categoryStore = useCategoryStore();
+const { all: categories } = storeToRefs(categoryStore);
+
 const title = ref('');
 const description = ref('');
-const categories = ref<Category[]>([]);
 const selectedCategoryIds = ref<number[]>([]);
 
 const errors = ref<Record<string, string[]>>({});
 const submitting = ref(false);
 
-onMounted(async () => {
-    const { data } = await api.get<{ data: Category[] }>('/categories');
-    categories.value = data.data;
-});
+onMounted(() => categoryStore.getAll());
 
 async function submit() {
     submitting.value = true;

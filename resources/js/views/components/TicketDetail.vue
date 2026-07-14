@@ -3,17 +3,20 @@ import { computed, ref } from 'vue';
 import { Pencil, X } from 'lucide-vue-next';
 import { storeToRefs } from 'pinia';
 import { isAxiosError } from 'axios';
-import type { Category, Ticket, TicketStatus, User } from '@/types';
+import type { Ticket, TicketStatus, User } from '@/types';
 import AdminAssign from './AdminAssign.vue';
 import TicketFormFields from './TicketFormFields.vue';
 import api, { csrf } from '../../lib/axios';
 import { useAuthStore } from '@/stores/auth';
+import { useCategoryStore } from '@/stores/categories';
 
 const props = defineProps<{ ticket: Ticket }>();
 const emit = defineEmits<{ updated: [Ticket] }>();
 
 const authStore = useAuthStore();
 const { isAdmin } = storeToRefs(authStore);
+const categoryStore = useCategoryStore();
+const { all: allCategories } = storeToRefs(categoryStore);
 const assignee = ref<User | null>(props.ticket.assignee);
 
 const canEdit = computed(() => isAdmin.value || authStore.user?.id === props.ticket.creator.id);
@@ -23,7 +26,6 @@ const editTitle = ref('');
 const editDescription = ref('');
 const editCategoryIds = ref<number[]>([]);
 const editStatus = ref<TicketStatus>('in_afwachting');
-const allCategories = ref<Category[]>([]);
 const errors = ref<Record<string, string[]>>({});
 const submitting = ref(false);
 
@@ -35,8 +37,7 @@ async function startEdit() {
     errors.value = {};
 
     if (!allCategories.value.length) {
-        const { data } = await api.get<{ data: Category[] }>('/categories');
-        allCategories.value = data.data;
+        await categoryStore.getAll();
     }
 
     editing.value = true;
